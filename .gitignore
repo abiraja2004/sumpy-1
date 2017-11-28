@@ -1,7 +1,14 @@
+# swap files
 *.swp
-*.txt
+*swo
 
+# single data files
+*.txt
+*.abstr
+
+# OS X file
 .DS_Store
 
+# gmail folder for a possible gmail_summerizer app
 gmail_stuff
  
