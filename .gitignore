@@ -2,6 +2,9 @@
 *.swp
 *swo
 
+# python files
+__pycache__
+
 # single data files
 *.txt
 *.abstr

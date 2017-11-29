@@ -12,7 +12,7 @@ class Preprocessing:
         TODO:
             - add options to not use the stemmer and the lemmatizer in order to perform experiments on the dataset
             - add multilingual support
-
+            - handle FileNotFoundError when opening file
         Args:
             path: string with the path containing the data to be used
 
@@ -20,7 +20,7 @@ class Preprocessing:
             Nothing
 
         Raises:
-            Nothing
+            FileNotFoundError
         """
 
         eng = spacy.load('en', disable=['parser', 'tagger', 'ner'])
