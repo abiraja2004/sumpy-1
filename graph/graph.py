@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 class Node:
 
-    def __init__(self, value, ID = 0, PRScore = 0):
+    def __init__(self, value, ID = 0, PRScore = 0, prevPR = 0):
         """
             Initializer for Node element.
 
@@ -19,20 +19,56 @@ class Node:
         """
 
         self._value = value
-        self._PRscore = PRScore
+        self._PRScore = PRScore
         self._ID = ID
+        self._prevPR = prevPR
+
 
     @property
-    def get_value(self):
+    def value(self):
         return self._value
 
     @property
-    def get_PRScore(self):
-        return self._PRscore
+    def PRScore(self):
+        return self._PRScore
 
     @property
-    def get_ID(self):
+    def ID(self):
         return self._ID
+
+    @ID.setter
+    def ID(self, ID):
+        self._ID = ID
+
+    @property
+    def prevPR(self):
+        return self._prevPR
+
+    @property
+    def diff_PR(self):
+        """
+            Returns the diff between current and previous PageRank score.
+
+        Args:
+            None
+
+        Returns:
+            An integer showing the difference between current and previous PRScore.
+            When diffPR is below a given treshold for any Node in the graph PageRank
+            algorithm shall stop
+
+        Raises:
+            Nothing
+        """
+        return self._PRScore - self._prevPR
+
+    def __str__(self):
+        seq = ['Value: ', self._value,
+                '| Current PRScore: ', str(self._PRScore),
+                '| ID: ', str(self._ID),
+                '| Difference PRScore: ', str(self.diff_PR), "\n"
+            ]
+        return "\t".join(seq)
 
 
 class Arc:
@@ -46,82 +82,105 @@ class Arc:
 
 
     @property
-    def get_weight(self):
+    def weight(self):
         return self._weight
 
     @property
-    def get_node1(self):
+    def node1(self):
         return self._node1
 
     @property
-    def get_node2(self):
+    def node2(self):
         return self._node2
 
 
 
 class Graph(ABC):
 
-
-    num_nodes = 0
-
-    def __init__(self, nodes = {} ):
+    def __init__(self, unproc_nodes = [], dict_graph = {}):
         """
         Initializer for Graph abstract class.
 
         Args:
-            nodes = DICT dictionary implementing the graph.
-                    key: Node -> Value: LIST list of neighbors
+            unproc_nodes = STR_LIST containing processed lemmatized/tokenized/tagged                           text
+            dict_graph = DICT dict implementing the graph
+                        KEY: nodes -> VALUE: list of arc (neighbors)
         Returns:
-            None
+            An initialized graph
 
         Raises:
             Nothing
         """
-        if len(nodes):
-            self.num_nodes = len(nodes)
 
-        self._nodes = nodes
+        """ TODO handle case when both list and graph are passed as arguments """
+
+        if dict_graph:
+            self._graph = dict_graph
+        else:
+            self._graph = self.build_graph(unproc_nodes)
+
+        self._num_nodes = len(self._graph)
+
+    @property
+    def graph(self):
+        return self._graph
+
+    @property
+    def size(self):
+        return self._num_nodes
 
     @abstractmethod
-    def get_nodes(self):
-        return self._nodes
-
-    @classmethod
-    def graph_size(cls):
-        return cls.num_nodes
-
-    def add_node(self, node):
+    def build_graph(self, nodes_list = []):
         pass
 
+    @abstractmethod
+    def add_node(self, node, arc):
+        pass
+
+    @abstractmethod
+    def del_node(self, node):
+        pass
 
 class UndirGraph(Graph):
 
-    def __init__(self, nodes = {}):
-        super().__init__(nodes)
-
-    def get_nodes(self):
-        super().get_nodes()
+    def __init__(self, unproc_nodes = [], graph_dict = {}):
+        super().__init__(unproc_nodes)
 
     def build_graph(self, node_list):
         """
         Builds a graph taking a list of processed words or sentence as input
 
         Args:
-            node_list: STR_LIST list = processed words or sentend needed to build the graph
+            node_list: STR_LIST = processed words or sentend needed to build the graph
         Returns:
             A dictionary implementing the graph
 
         Raises:
             Nothing
         """
+        graph = {}
 
         for vertex in node_list:
-            vertex.ID = self.num_nodes
+           vertex.ID = self.num_nodes
+           graph[vertex] = []
+        """ TODO build graph according to similarity method """
 
-            """ TODO build graph according to similarity method """
-            self._nodes[vertex] = []
+        self._num_nodes = len(graph)
+        return graph
 
-        print(self._nodes)
+    def add_node(self, node, arc):
+        pass
 
+    def del_node(self, node):
+        pass
 
-
+    def __str__(self):
+        final = []
+        for vertex in self._graph:
+            seq = ['Value: ', vertex.value,
+                        '| Current PRScore: ', str(vertex.PRScore),
+                        '| ID: ', str(vertex.ID),
+                        '| Difference PRScore: ', str(vertex.diff_PR), "\n"]
+            elem = "\t".join(seq)
+            final.append(elem)
+        return ''.join(final)

@@ -26,13 +26,17 @@ class Preprocessing:
         eng = spacy.load('en', disable=['parser', 'ner'])
         tokenizer = English().Defaults.create_tokenizer(eng)
 
+#        tagger = Tagger(eng)
+
+
         self._path = path
 
         try:
             with open(path, 'r') as f:
                 self._doc = tokenizer(f.read())     # spacy-doc object with preprocessed file
         except FileNotFoundError:
-            print('Can\'t access the file specified by ', path, ', please provide a valide path')
+            print('Can\'t access the file specified by ', path,
+                    ', please provide a valide path')
             exit(1)
 
 
@@ -54,7 +58,8 @@ class Preprocessing:
 
     def show_pos(self):
         for tokens in self._doc:
-            print('token: ', tokens, 'pos: ', tokens.tag)
+            print('token: ', tokens, 'pos: ', tokens.pos_,
+                    'istagged: ', self._doc.is_tagged)
 
     def show_text(self):
         with open(self._path, 'r') as f:
