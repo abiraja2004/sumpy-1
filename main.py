@@ -1,22 +1,53 @@
 
-import logging
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-import requests
-
-from gensim.summarization import summarize
-from gensim.summarization import keywords
-
-###
-
-text = requests.get('http://rare-technologies.com/the_matrix_synopsis.txt').text
+import argparse
 
 
-#print ('Input text:')
-#print (text)
+
+"""
+
+python main.py
+
+[-k] [--keywords]
+
+    [window = between 2 and 10]
 
 
-print ('\n \n Summary:')
-print (summarize(text, ratio = 0.01))
+[-s] [--summary]
 
-print('Keywords:')
-#print(keywords(text))
+    [-l] [--lemmatize]
+
+    [-p] [--pos]
+
+    [similarity = common_words | cosine ...]
+
+    [-v] [--visualize]
+
+    [ratio = integer]
+
+pagerank visualization python library: https://graph-tool.skewed.de/static/doc/centrality.html#graph_tool.centrality.pagerank
+
+http://www.graphviz.org/gallery/
+
+"""
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Run automatic keywords extraction or extractive summerizer')
+
+    parser.add_argument('-k', '--keywords')
+
+    parser.add_argument('-s', '--summary')
+
+    parser.add_argument('-l', '--lemmatize')
+
+    parser.add_argument('-p', '--pos')
+
+    #parser.add_argument('-v', '--visualize')
+
+    parser.print_help()
+    print('hello')
+
+if __name__ == "__main__":
+    main()
+
+

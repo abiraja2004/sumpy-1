@@ -21,7 +21,6 @@ class Node:
         self._value = value
         self._PRscore = PRScore
         self._ID = ID
-        self._neighbors = neighbors
 
     @property
     def get_value(self):
@@ -32,12 +31,32 @@ class Node:
         return self._PRscore
 
     @property
-    def get_neighbors(self):
-        return self._neighbors
-
-    @property
     def get_ID(self):
         return self._ID
+
+
+class Arc:
+
+    def __init__(self, weight, node1, node2):
+       """ TODO """
+
+       self._weight = weight
+       self._node1 = node1
+       self._node2 = node2
+
+
+    @property
+    def get_weight(self):
+        return self._weight
+
+    @property
+    def get_node1(self):
+        return self._node1
+
+    @property
+    def get_node2(self):
+        return self._node2
+
 
 
 class Graph(ABC):
@@ -50,8 +69,8 @@ class Graph(ABC):
         Initializer for Graph abstract class.
 
         Args:
-            None
-
+            nodes = DICT dictionary implementing the graph.
+                    key: Node -> Value: LIST list of neighbors
         Returns:
             None
 
@@ -59,7 +78,7 @@ class Graph(ABC):
             Nothing
         """
         if len(nodes):
-            Graph.num_nodes = len(nodes)
+            self.num_nodes = len(nodes)
 
         self._nodes = nodes
 
@@ -73,6 +92,7 @@ class Graph(ABC):
 
     def add_node(self, node):
         pass
+
 
 class UndirGraph(Graph):
 
@@ -94,6 +114,7 @@ class UndirGraph(Graph):
         Raises:
             Nothing
         """
+        pass
 
 
 
