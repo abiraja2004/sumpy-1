@@ -61,7 +61,7 @@ class Preprocessing:
             print(f.read())
 
 
-path = '2.abstr2'
+path = '2.abstr'
 a = Preprocessing(path)
 #a.show_tokens()
 #a.show_lemmas()

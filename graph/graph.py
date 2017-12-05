@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 class Node:
 
-    def __init__(self, value, PRScore = 0, ID, neighbors):
+    def __init__(self, value, ID = 0, PRScore = 0):
         """
             Initializer for Node element.
 
@@ -37,7 +37,7 @@ class Node:
 
 class Arc:
 
-    def __init__(self, weight, node1, node2):
+    def __init__(self, node1, node2, weight = 1):
        """ TODO """
 
        self._weight = weight
@@ -96,26 +96,32 @@ class Graph(ABC):
 
 class UndirGraph(Graph):
 
-    def __init__(self, nodes = [], edges = []):
-        super().__init__(nodes, edges)
+    def __init__(self, nodes = {}):
+        super().__init__(nodes)
 
     def get_nodes(self):
         super().get_nodes()
 
-    def build_graph(self, elem_list):
+    def build_graph(self, node_list):
         """
         Builds a graph taking a list of processed words or sentence as input
 
         Args:
-            elem_list: STR_LIST list = processed words or sentend needed to build the graph
+            node_list: STR_LIST list = processed words or sentend needed to build the graph
         Returns:
             A dictionary implementing the graph
 
         Raises:
             Nothing
         """
-        pass
 
+        for vertex in node_list:
+            vertex.ID = self.num_nodes
+
+            """ TODO build graph according to similarity method """
+            self._nodes[vertex] = []
+
+        print(self._nodes)
 
 
 
