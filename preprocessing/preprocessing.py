@@ -23,15 +23,18 @@ class Preprocessing:
             FileNotFoundError
         """
 
-        eng = spacy.load('en', disable=['parser', 'tagger', 'ner'])
+        eng = spacy.load('en', disable=['parser', 'ner'])
         tokenizer = English().Defaults.create_tokenizer(eng)
 
         self._path = path
 
-        with open(path, 'r') as f:
-            self._doc = tokenizer(f.read())     # spacy-doc object with preprocessed file
+        try:
+            with open(path, 'r') as f:
+                self._doc = tokenizer(f.read())     # spacy-doc object with preprocessed file
+        except FileNotFoundError:
+            print('Can\'t access the file specified by ', path, ', please provide a valide path')
+            exit(1)
 
-        f.close()
 
     def show_lemmas(self):
         """
@@ -49,15 +52,19 @@ class Preprocessing:
         for tokens in self._doc:
             print('token: ', tokens)
 
+    def show_pos(self):
+        for tokens in self._doc:
+            print('token: ', tokens, 'pos: ', tokens.tag)
+
     def show_text(self):
         with open(self._path, 'r') as f:
             print(f.read())
 
 
-path = './2.abstr'
+path = '2.abstr2'
 a = Preprocessing(path)
 #a.show_tokens()
 #a.show_lemmas()
-a.show_text()
-
+#a.show_text()
+a.show_pos()
 
