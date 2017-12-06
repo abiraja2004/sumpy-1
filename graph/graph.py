@@ -116,10 +116,9 @@ class Graph(ABC):
 
         if dict_graph:
             self._graph = dict_graph
+            self._num_nodes = len(self._graph)
         else:
             self._graph = self.build_graph(unproc_nodes)
-
-        self._num_nodes = len(self._graph)
 
     @property
     def graph(self):
@@ -160,12 +159,15 @@ class UndirGraph(Graph):
         """
         graph = {}
 
+        self._num_nodes = 0
+
         for vertex in node_list:
-           vertex.ID = self.num_nodes
-           graph[vertex] = []
+            self._num_nodes = self._num_nodes + 1
+            vertex.ID = self._num_nodes
+            graph[vertex] = []
         """ TODO build graph according to similarity method """
 
-        self._num_nodes = len(graph)
+        assert len(graph) == self._num_nodes
         return graph
 
     def add_node(self, node, arc):
