@@ -2,7 +2,6 @@
 import argparse
 
 
-
 """
 
 python main.py
@@ -41,6 +40,8 @@ def check_args(opt):
 def parse_cmdline():
     parser = argparse.ArgumentParser(description='Run automatic keywords extraction or extractive summarizer')
 
+    parser.add_argument('-f', '--file',  type=argparse.FileType('r'))
+
     group = parser.add_mutually_exclusive_group()
 
     group.add_argument('--keywords', action = 'store_true', default = False,
@@ -49,30 +50,27 @@ def parse_cmdline():
     group.add_argument('--summary', action = 'store_true', default = False,
                         help = 'performing sentence extraction/summarization task')
 
-    parser.add_argument('-f', '--file',  type=argparse.FileType('r'))
+    parser.add_argument('-n', '--no_stopwords', action = 'store_true',
+                        default = False, help = 'removing stopwords from input text')
 
-    parse.add_argument('-n', '--no_stopwords', action = 'store_true',
-                        default = False, helpl = 'removing stopwords from input text')
-
-    parse_add_argument('-w', '--window', default = 2, help = 'window size to create' +
+    parser.add_argument('-w', '--window', default = 2, type=int,
+                        help = 'window size to create' +
                         'to create link between keywords')
 
 
-    parser.add_argument('-l', 'lemmatize', action = 'store_true', default = False,
+    parser.add_argument('-l', '-lemmatize', action = 'store_true', default = False,
                         help= 'lemmatizing input text')
 
     parser.add_argument('-p', '--pos', action = 'store_true', default = False,
                         help = 'pos tagging input text')
 
+    args = vars(parser.parse_args())
 
-
-    print('hello')
-    parser.print_help()
-    print('done')
+    # thsis works! -> print(args['file'].readlines())
 
 def main():
     print('hello')
-
+    parse_cmdline()
 
 if __name__ == "__main__":
     main()
