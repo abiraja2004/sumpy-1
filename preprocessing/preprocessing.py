@@ -31,9 +31,16 @@ class Preprocessing:
 
         self._path = path
 
+
         try:
             with open(path, 'r') as f:
                 self._doc = tokenizer(f.read())     # spacy-doc object with preprocessed file
+
+                in_file = open(path, "r")
+                self._text = eng(in_file.read())
+                in_file.close()
+                print(self._text)
+
         except FileNotFoundError:
             print('Can\'t access the file specified by', path,
                     ', please provide a valide path')
@@ -58,7 +65,12 @@ class Preprocessing:
 
     def show_pos(self):
         for tokens in self._doc:
-            print('token: ', tokens, '| pos: ', tokens.pos_,
+            print('token: ', tokens.text, '| pos: ', tokens.pos_,
+                    '| istagged: ', self._doc.is_tagged)
+
+    def show_pos2(self):
+        for tokens in self._text:
+            print('token: ', tokens.text, '| pos: ', tokens.pos_,
                     '| istagged: ', self._doc.is_tagged)
 
     def show_text(self):
@@ -66,10 +78,10 @@ class Preprocessing:
             print(f.read())
 
 
-path = '2.abstr'
+path = '../Hulth2003/Test/2.abstr'
 a = Preprocessing(path)
 #a.show_tokens()
 #a.show_lemmas()
 #a.show_text()
-a.show_pos()
-
+#a.show_pos()
+a.show_pos2()
