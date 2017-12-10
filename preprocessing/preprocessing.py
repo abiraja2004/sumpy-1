@@ -72,16 +72,17 @@ class Preprocessing:
                     '| istagged: ', self._text.is_tagged)
 
     def show_text(self):
-        with open(self._path, 'r') as f:
-            print(f.read())
+        print(self._text_read)
+        # with open(self._path, 'r') as f:
+        #    print(f.read())
 
 
 path = '../Hulth2003/Test/2.abstr'
 a = Preprocessing(path)
 #a.show_tokens()
 #a.show_lemmas()
-#a.show_text()
+a.show_text()
 #a.show_pos()
-a.show_pos2()
+#a.show_pos2()
 
 
