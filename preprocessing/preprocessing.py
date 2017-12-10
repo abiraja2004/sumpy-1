@@ -34,17 +34,15 @@ class Preprocessing:
 
         try:
             with open(path, 'r') as f:
-                self._doc = tokenizer(f.read())     # spacy-doc object with preprocessed file
-
-                in_file = open(path, "r")
-                self._text = eng(in_file.read())
-                in_file.close()
-                print(self._text)
-
+                self._text_read = f.read()
         except FileNotFoundError:
             print('Can\'t access the file specified by', path,
                     ', please provide a valide path')
             exit(1)
+
+        self._doc = tokenizer(self._text_read)  # spacy-doc object
+                                                # with preprocessed file
+        self._text = eng(self._text_read)
 
 
     def show_lemmas(self):
@@ -71,7 +69,7 @@ class Preprocessing:
     def show_pos2(self):
         for tokens in self._text:
             print('token: ', tokens.text, '| pos: ', tokens.pos_,
-                    '| istagged: ', self._doc.is_tagged)
+                    '| istagged: ', self._text.is_tagged)
 
     def show_text(self):
         with open(self._path, 'r') as f:
@@ -85,3 +83,5 @@ a = Preprocessing(path)
 #a.show_text()
 #a.show_pos()
 a.show_pos2()
+
+
