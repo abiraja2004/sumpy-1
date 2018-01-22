@@ -91,9 +91,9 @@ class UndirGraph(Graph):
         assert len(graph) == self._num_nodes
         return graph
 
-    def add_node(self, node, arc =[]):
+    def add_node(self, node, arc = []):
         """
-            Add new node to the Graph. It updates the node if it exsist.
+        Add new node to the Graph. It updates the node if it exsist.
 
         It add the node and the arc to the graph. If the node is already in the
         graph it is updated with adding the list of arcs as its neighbors
