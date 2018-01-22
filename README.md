@@ -14,8 +14,7 @@ Hulth2003 dataset taken from https://github.com/snkim/AutomaticKeyphraseExtracti
   pages = {216--223}  
 }  
 
-
-
+TextRank code taken from https://github.com/summanlp/textrank
 
 Contributors:
 Roberto Dessi and Alberto Testoni
