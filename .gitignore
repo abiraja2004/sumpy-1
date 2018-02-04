@@ -12,6 +12,13 @@ __pycache__
 *.abstr
 *.pdf
 
+# latex file
+*.aux
+*.bbl
+*.blg
+*.log
+
+
 # OS X file
 .DS_Store
 
