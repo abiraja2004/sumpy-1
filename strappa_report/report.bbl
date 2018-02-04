@@ -1,0 +1,9 @@
+\begin{thebibliography}{1}
+
+\bibitem{systematic}
+Brenden~M. Lake and Marco Baroni.
+\newblock Still not systematic after all these years: On the compositional
+  skills of sequence-to-sequence recurrent networks.
+\newblock {\em CoRR}, abs/1711.00350, 2017.
+
+\end{thebibliography}

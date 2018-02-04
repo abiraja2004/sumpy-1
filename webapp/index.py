@@ -1,4 +1,4 @@
-
+'''
 from flask import Flask, render_template
 
 from textrank.summa import keywords
@@ -20,8 +20,6 @@ def hi(name=None):
         return render_template('index.html', name=name)
 
 
-
-
-
+'''
 
 
