@@ -2,12 +2,15 @@
 *.swp
 *swo
 
+summarization_stuff/
+
 # python files
 __pycache__
 
 # single data files
 *.txt
 *.abstr
+*.pdf
 
 # OS X file
 .DS_Store
