@@ -127,7 +127,7 @@ In this project we used the implementation of the algorithm proposed in [2] avai
 \item Finally, we designed and implemented a simple website where it is possible to use TextRank both for keywords and sentence extraction given a text at will. The user, moreover, can choose the length of the summarized text and the number of keywords to be extracted.
 \end{itemize}
 \section{Project and Results}
-For the first purpose (namely the evaluation of [2] for the task of keywords extraction) we downloaded from the web the \textit{Inspec} database and the assigned keywords. The Inspec abstracts are from journal papers from Computer Science and Information Technology. Each abstract comes with two sets of keywords assigned by professional indexers: controlled keywords, restricted to a given thesaurus, and uncontrolled keywords, freely assigned by the indexers. We followed the evaluation approach from [1], and used the uncontrolled set of keywords. The results are evaluated using precision, recall, and F-measure. We noticed that the maximum recall that can be achieved on this collection is less than 100\%,since indexers were not limited to keyword extraction but they were also allowed to perform keyword generation, which eventually results in keywords that do not explicitly appear in the text. We considered a co-occurrence window-size set to two, three, five, or ten words. Moreover, we tested whether taking into account the title of the abstract can lead to a better performance. The results are reported in Table 1. 
+For the first purpose (namely the evaluation of [2] for the task of keywords extraction) we downloaded from the web the \textit{Inspec} database and the assigned keywords. The Inspec abstracts are from journal papers from Computer Science and Information Technology. Each abstract comes with two sets of keywords assigned by professional indexers: controlled keywords, restricted to a given thesaurus, and uncontrolled keywords, freely assigned by the indexers. We followed the evaluation approach from [1], and used the uncontrolled set of keywords. The results are evaluated using precision, recall, and F-measure. We noticed that the maximum recall that can be achieved on this collection is less than 100\%,since indexers were not limited to keyword extraction but they were also allowed to perform keyword generation, which eventually results in keywords that do not explicitly appear in the text. We considered a co-occurrence window-size set to two, three, five, or ten words. The results are reported in Table 1. 
 
 \begin{table*}[t]
   \centering
@@ -138,17 +138,16 @@ For the first purpose (namely the evaluation of [2] for the task of keywords ext
     TextRank [1] & 3 & 28.2 & 36.8 & 32.6 \\ \hline
     TextRank [1] & 5 & 28.2 & 37.7 & 32.2\\ \hline
     TextRank [1] & 10 & 28.1 & 37.6 & 32.2 \\ \hline \hline
-    TextRank [2] & 2 & x & x & x\\ \hline
-    TextRank [2] & 3 & x & x & x \\ \hline
-    TextRank [2] & 5 & x & x & x\\ \hline
-    TextRank [2] & 10 & x & x & x \\ \hline \hline
-    TextRank [2] \small(with title) & 2 & x & x & x \\ \hline
+    TextRank [2] & 2 & 5.01 & 5.52 & 5.22\\ \hline
+    TextRank [2] & 3 & 4.96 & 5.34 & 5.12 \\ \hline
+    TextRank [2] & 5 & 4.86 & 5.22 & 5.11\\ \hline
+    TextRank [2] & 10 & 4.77 & 5.10 & 5.03 \\ \hline \hline
   \end{tabular}
   \caption{Results for automatic keyword extraction using TextRank [1] and the system proposed in [2]}
   \label{tab:1}
 \end{table*}
 
-We can observe ... ... ... ... ...  \\
+We can observe that the system proposed in 2 actually doesn't work properly; we can observe a very bad performance with all the different co-occurrence windows. Probably there is a problem with this version of the code or during the pre-processing phase. \\
 For the second part of the project, namely the evaluation of the task of sentence extraction, we used the same methodology proposed in [1] and [2]. To apply TextRank, we first built a graph associated with the text, where the graph vertices are representative for the units to be ranked. For the task of sentence extraction, the goal is to rank entire sentences, and for this reason a vertex is added to the graph for each sentence in the text. The co-occurrence relation used for keyword extraction cannot be applied here, since the text units in consideration are significantly larger than one or few words, and "co-occurrence" is not a meaningful relation for such large contexts. The aim of this section is to compare the similarity function proposed in [1] (i.e. content overlap) and the variants to this function presented in [2] (i.e. Longest Common Substring, Cosine Distance, BM25). Differently to [1] and [2], we have access only to a only a subset of the original DUC2002 dataset used in the previously cited works. For the evaluation, we used the ROUGE evaluation toolkit, which is a method based on Ngram statistics, found to be highly correlated with human evaluations. We applied a stemming process to the text under analysis. The results are reported in Table 2. 
 
 \begin{table}[t]
@@ -157,18 +156,17 @@ For the second part of the project, namely the evaluation of the task of sentenc
   \hline
     \textbf{System} & \textbf{ROUGE-1} \\ \hline
     TextRank [1] & 0.3983 \\ \hline
-    TextRank [2] BM25 & 0.4042 \\ \hline
-    TextRank [1] & 0.00 \\ \hline
+    TextRank [2] BM25 & 0.4031 \\ \hline
   \end{tabular}
   \caption{Evaluation results-sentence extraction}
   \label{tab:2}
 \end{table}
 
-We can observe ... ... ... ... ...  \\
+We can observe that the system proposed in [2] slightly improve the score obtained by the system proposed in [1]; the new variants to the similarity function actually improve the overall performance of the system for the task of sentence extraction.\\
 For the last part of the project, we developed a simple web-application where the user can write any text and get a summarized version and the list of the keywords extracted from that text. Moreover, the user can specify the number of words of the summarized text and the number of keywords to be extracted. Some screen-shots of the proposed application are presented in the Appendix of this report. The website was created using Bootstrap [7] as front-end library for designing websites and web applications. We also used jQuery, a cross-platform JavaScript library designed to simplify the client-side scripting of HTML. The web-application is basic and simple but we think that in this way the user can understand better how TextRank works and have a qualitative impression about the quality of this system.
 
 \section{Conclusions and future works} 
-In this project, we tested and evaluated TextRank and showed how it can be successfully used for different natural language applications. In particular, we evaluated two innovative unsupervised approaches for keyword and sentence extraction, and showed that the accuracy achieved by TextRank in these applications is competitive with the state-of-the-art algorithms. An important aspect of TextRank is that it does not require deep linguistic knowledge, nor domain or language specific annotated corpora, which makes it highly portable to other domains, genres, or languages. First of all, we evaluated the system proposed in [2] for the task of keywords extraction; we obtained similar results to [1] and [2]. Secondly, we studied the different variations of the similarity function of the original TextRank proposed in [2]; this approach is able to achieve, through the best configuration, an improvement in performance of almost 2\% over the original TextRank setup. Finally, we presented a simple but effective web-application where the user can "play" with TextRank with any text.\\
+In this project, we tested and evaluated TextRank and showed how it can be successfully used for different natural language applications. In particular, we evaluated two innovative unsupervised approaches for keyword and sentence extraction, and showed that the accuracy achieved by TextRank in these applications is competitive with the state-of-the-art algorithms. An important aspect of TextRank is that it does not require deep linguistic knowledge, nor domain or language specific annotated corpora, which makes it highly portable to other domains, genres, or languages. First of all, we evaluated the system proposed in [2] for the task of keywords extraction; we obtained bad results, probably due to a problem with the code. We are working to solve this problem and to improve this system in the future. Secondly, we studied the different variations of the similarity function of the original TextRank proposed in [2]; this approach is able to achieve, through the best configuration, an improvement in performance of almost 2\% over the original TextRank setup. Finally, we presented a simple but effective web-application where the user can "play" with TextRank with any text.\\
 Considering possible extensions and future works, we think that an innovative and challenging application in this research field is the so-called \textit{Abstractive Text Summarization}. As summarized in [8], Abstractive text summarization is the task of generating a headline or a short summary consisting of a few sentences that captures the salient ideas of an article or a passage. The adjective "abstractive" denotes a summary that is not a mere selection of a few existing passages or sentences extracted from the source, but a compressed paraphrasing of the main contents of the document, potentially using vocabulary unseen in the source document. This task can also be naturally cast as mapping an input sequence of words in a source document to a target sequence of words called summary. In the recent past, deep-learning based models that map an input sequence into another output sequence, called sequence-to-sequence models, have been successful in many problems such as machine translation, speech recognition and video captioning.  A key challenge in summarization is to optimally compress the original document in a lossy manner such that the key concepts in the original document are preserved, whereas in MT, the translation is expected to be loss-less. We think that this line of research will lead to great results in the future and we would like to examine in depth these deep-learning techniques. 
 
 
@@ -184,10 +182,10 @@ Considering possible extensions and future works, we think that an innovative an
 \bibitem{c2} Federico Barrios, Federico L{\'{o}}pez, Luis Argerich, Rosa Wachenchauzer, Variations of the Similarity Function of TextRank for Automated Summarization, CoRR 2016
 \bibitem{c3} S. Brin and L. Page. 1998. The anatomy of a large-scale hyper- textual Web search engine. Computer Networks and ISDN Systems, 30(1-7).
 \bibitem{c4} R. Mihalcea, P. Tarau, and E. Figa. 2004. PageRank on semantic networks, with application to word sense disambiguation. In Proceedings of the 20st International Conference on Computational Linguistics (COLING 2004), Geneva, Switzerland.
-\bibitem{c5} Luhn, H.P.: The automatic creation of literature abstracts. IBM J. Res. Dev. 2(2), 159-165 (Apr 1958), http://dx.doi.org/10.1147/rd.22.0159
+\bibitem{c5} Luhn, H.P.: The automatic creation of literature abstracts. IBM J. Res. Dev. 2(2), 159-165 (Apr 1958)
 \bibitem{c6} Das, D., Martins, A.F.T.: A survey on automatic text summarization. Tech. rep., Carnegie Mellon University, Language Technologies Institute (2007)
 \bibitem{c7} Bootstrap - The most popular HTML, CSS, and JS library in the world. (https://getbootstrap.com/)
-\bibitem{c8} Ramesh Nallapati, Bowen Zhou, Cicero Nogueira dos santos, Caglar Gulcehre, Bing Xiang, Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond, The SIGNLL Conference on Computational Natural Language Learning (CoNLL), 2016.
+\bibitem{c8} Ramesh Nallapati, Bowen Zhou, Cicero Nogueira dos santos, Caglar Gulcehre, Bing Xiang, Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond, (CoNLL), 2016.
 
 \end{thebibliography}
 
