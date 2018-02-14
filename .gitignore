@@ -1,8 +1,10 @@
 # swap files
 *.swp
-*swo
+*.swo
 
+# folders
 summarization_stuff/
+strappa_projects/
 
 # python files
 __pycache__
