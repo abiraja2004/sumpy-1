@@ -4,7 +4,7 @@
 
 # folders
 summarization_stuff/
-strappa_projects/
+strappa_project/
 
 # python files
 __pycache__
@@ -13,6 +13,7 @@ __pycache__
 *.txt
 *.abstr
 *.pdf
+.gitignore
 
 # latex file
 *.aux
@@ -22,11 +23,7 @@ __pycache__
 *.out
 report.synctex.gz(busy)
 
-
-
 # OS X file
 .DS_Store
 
-# gmail folder for a possible gmail_summerizer app
-gmail_stuff
  
