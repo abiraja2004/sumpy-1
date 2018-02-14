@@ -1,0 +1,196 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Journal Article
+% LaTeX Template
+% Version 1.4 (15/5/16)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com) with extensive modifications by
+% Vel (vel@LaTeXTemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[twoside,twocolumn]{article}
+
+\renewcommand\vec[1]{\overrightarrow{#1}}
+\newcommand\cev[1]{\overleftarrow{#1}}
+
+\usepackage[sc]{mathpazo} % Use the Palatino font
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\linespread{1.05} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage{mathtools}
+\usepackage[english]{babel} % Language hyphenation and typographical rules
+
+\usepackage{graphicx}
+\usepackage{float}
+
+\graphicspath{ {images/} }
+
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+
+\usepackage{enumitem} % Customized lists
+\setlist[itemize]{noitemsep} % Make itemize lists more compact
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{ $\bullet$ Human Language Technologies - Academic Year 2017/2018 $\bullet$ } % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+\usepackage{titling} % Customizing the title section
+
+\usepackage{hyperref} % For hyperlinks in the PDF
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\setlength{\droptitle}{-4\baselineskip} % Move the title up
+
+\pretitle{\begin{center}\Huge\bfseries} % Article title formatting
+\posttitle{\end{center}} % Article title closing formatting
+\title{TextRank: evaluation \& web-app \\
+\large Project Report for Human Language Technologies course } % Article title
+\author{%s
+	\textsc{Alberto Testoni }\\ [1ex]%\thanks{A thank you or further information} \\[1ex] % Your name
+\normalsize CIMeC, University of Trento \\ % Your institution
+\normalsize \href{mailto:alberto.testoni@studenti.unitn.it}{alberto.testoni@studenti.unitn.it} % Your email address
+\and % Uncomment if 2 authors are required, duplicate these 4 lines if more
+\textsc{Roberto Dess\'{i} } \\[1ex] % Second author's name
+\normalsize  CIMeC, University of Trento\\ % Second author's institution
+\normalsize \href{mailto:roberto.dessi@studenti.unitn.it}{roberto.dessi@studenti.unitn.it} % Second author's email address
+}
+\date{\today} % Leave empty to omit a date
+\renewcommand{\maketitlehookd}{%
+
+%\begin{abstract}
+%\noindent 
+%In the report we want to fvs
+%\end{abstract}
+}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+% Print the title
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+\section{Motivation}
+In this project we'll focus on two classical tasks in Natural Language processing: keyword extraction and text summarization. \textit{Extracting keywords} is one of the most important tasks when dealing with texts. Readers benefit from keywords because they can judge more quickly whether the text is worth reading; website creators can group similar content by its topics; keyword extraction allows programmers to reduce the dimensionality of text to the most important features. Such keywords may constitute useful entries for building an automatic index for a document collection, can be used to classify a text, or may provide a concise summary for a given document. Moreover, a system for automatic identification of important terms in a text can be used for the problem of terminology extraction, and construction of domain-specific dictionaries.\\
+The second task consists of \textit{automatic summarization}. In the Internet-era there is a great need to reduce much of this text data to shorter, focused summaries that capture the salient details, so we can navigate it more effectively as well as check whether the larger documents contain the information that we are looking for. The main idea of summarization is to find a subset of data which contains the "information" of the entire set. Document summarization tries to create a representative summary or abstract of the entire document, by finding the most informative sentences. There are two general approaches to automatic summarization: extraction and abstraction. Extractive methods work by selecting a subset of existing words, phrases, or sentences in the original text to form the summary. In contrast, abstractive methods build an internal semantic representation and then use natural language generation techniques to create a summary that is closer to what a human might express. Such a summary might include verbal innovations. In this project, we'll focus on extractive summarization. 
+
+\section{Literature Review}
+The field of automated summarization has drawn attention since the late 50's [5]. The mainstream research in this field emphasizes extractive approaches to summarization using statistical methods [6]. Several statistical models have been developed based on training corpora to combine different heuristics using keywords, position and length of sentences, word frequency or titles. Other methods are based in the representation of the text as a graph. The graph-based ranking approaches consider the intrinsic structure of the texts instead of treating texts as simple aggregations of terms. Thus it is able to capture and express richer information in determining important concepts [19].\\
+Graph-based ranking algorithms (like the Google's PageRank algorithm by Brin and Page [3]) provide a Web page ranking mechanism that relies on the collective knowledge of Web architecture rather than individual content analysis of pages. The question the authors of [1] address is whether this line of thinking can be applied even to lexical or semantic graphs extracted from natural language documents. To enable the application of graph-based ranking algorithms to natural language texts, it is necessary to build a graph that represents the text, and interconnects words or other text entities with meaningful relations; text units of various sizes and characteristics can be added as vertices in the graph but it is the application that dictates the type of relations that are used to draw connections between any two such vertices. In [1], the authors introduce a graph-based ranking model for text processing named Textrank; in particular, they propose and evaluate two unsupervised methods for keyword and sentence extraction (\textit{extractive summarization}). This graph-based ranking model can be applied to a variety of natural language processing applications, where knowledge drawn from an entire text is used in making local ranking and selection decisions; for example, in [4] the TextRank algorithm is applied in the task of \textit{word sense disambiguation}. \\
+TextRank determines the relation of similarity between two sentences based on the content that both share. This overlap is calculated simply as the number of common lexical tokens between them, divided by the length of each to avoid promoting long sentences. In [2] the authors describe different modifications over the original TextRank algorithm. These ideas are based in changing the way in which distances between sentences are computed to weight the edges of the graph used for TextRank. This approach is able to achieve, through the best configuration, an improvement in performance of 2.92\% over the original TextRank setup. Being TextRank one the most widely used method for unsupervised extractive summarization [1] it seems to be a satisfactory contribution.
+
+\section{Project Proposal}
+In this project we used the implementation of the algorithm proposed in [2] available on Github; we added some new functions in the code in order to adjust the code to our purposes:
+\begin{itemize}
+\item Since [2] lacks the comparison of the performance of this algorithm with the original TextRank proposed in [1] for the task of keywords extraction, we filled this gap. We used the same dataset of [1] and the same methodology in order to get coherent results (i.e. a collection of 500 abstracts from the \textit{Inspec} database and the corresponding manually assigned keywords).
+\end{itemize}
+\begin{itemize}
+\item For the task of sentence extraction for automatic summarization, we replicated the comparison between the system prosed in [2] and the original TextRank [1] using the DUC2002 dataset, as already did in the two cited works. 
+\end{itemize}
+\begin{itemize}
+\item Finally, we designed and implemented a simple website where it is possible to use TextRank both for keywords and sentence extraction given a text at will. The user, moreover, can choose the length of the summarized text and the number of keywords to be extracted.
+\end{itemize}
+\section{Project and Results}
+For the first purpose (namely the evaluation of [2] for the task of keywords extraction) we downloaded from the web the \textit{Inspec} database and the assigned keywords. The Inspec abstracts are from journal papers from Computer Science and Information Technology. Each abstract comes with two sets of keywords assigned by professional indexers: controlled keywords, restricted to a given thesaurus, and uncontrolled keywords, freely assigned by the indexers. We followed the evaluation approach from [1], and used the uncontrolled set of keywords. The results are evaluated using precision, recall, and F-measure. We noticed that the maximum recall that can be achieved on this collection is less than 100\%,since indexers were not limited to keyword extraction but they were also allowed to perform keyword generation, which eventually results in keywords that do not explicitly appear in the text. We considered a co-occurrence window-size set to two, three, five, or ten words. The results are reported in Table 1. 
+
+\begin{table*}[t]
+  \centering
+  \begin{tabular}{| l  l  l  l  l |}
+  \hline
+    \textbf{Method} & \textbf{Co-occur. win.} & \textbf{Precision} & \textbf{Recall} & \textbf{F-measure} \\ \hline
+    TextRank [1] & 2 & 31.2 & 43.1 & 36.2\\ \hline
+    TextRank [1] & 3 & 28.2 & 36.8 & 32.6 \\ \hline
+    TextRank [1] & 5 & 28.2 & 37.7 & 32.2\\ \hline
+    TextRank [1] & 10 & 28.1 & 37.6 & 32.2 \\ \hline \hline
+    TextRank [2] & 2 & 5.01 & 5.52 & 5.22\\ \hline
+    TextRank [2] & 3 & 4.96 & 5.34 & 5.12 \\ \hline
+    TextRank [2] & 5 & 4.86 & 5.22 & 5.11\\ \hline
+    TextRank [2] & 10 & 4.77 & 5.10 & 5.03 \\ \hline \hline
+  \end{tabular}
+  \caption{Results for automatic keyword extraction using TextRank [1] and the system proposed in [2]}
+  \label{tab:1}
+\end{table*}
+
+We can observe that the system proposed in 2 actually doesn't work properly; we can observe a very bad performance with all the different co-occurrence windows. Probably there is a problem with this version of the code or during the pre-processing phase. \\
+For the second part of the project, namely the evaluation of the task of sentence extraction, we used the same methodology proposed in [1] and [2]. To apply TextRank, we first built a graph associated with the text, where the graph vertices are representative for the units to be ranked. For the task of sentence extraction, the goal is to rank entire sentences, and for this reason a vertex is added to the graph for each sentence in the text. The co-occurrence relation used for keyword extraction cannot be applied here, since the text units in consideration are significantly larger than one or few words, and "co-occurrence" is not a meaningful relation for such large contexts. The aim of this section is to compare the similarity function proposed in [1] (i.e. content overlap) and the variants to this function presented in [2] (i.e. Longest Common Substring, Cosine Distance, BM25). Differently to [1] and [2], we have access only to a only a subset of the original DUC2002 dataset used in the previously cited works. For the evaluation, we used the ROUGE evaluation toolkit, which is a method based on Ngram statistics, found to be highly correlated with human evaluations. We applied a stemming process to the text under analysis. The results are reported in Table 2. 
+
+\begin{table}[t]
+  \centering
+  \begin{tabular}{| l  l |}
+  \hline
+    \textbf{System} & \textbf{ROUGE-1} \\ \hline
+    TextRank [1] & 0.3983 \\ \hline
+    TextRank [2] BM25 & 0.4031 \\ \hline
+  \end{tabular}
+  \caption{Evaluation results-sentence extraction}
+  \label{tab:2}
+\end{table}
+
+We can observe that the system proposed in [2] slightly improve the score obtained by the system proposed in [1]; the new variants to the similarity function actually improve the overall performance of the system for the task of sentence extraction.\\
+For the last part of the project, we developed a simple web-application where the user can write any text and get a summarized version and the list of the keywords extracted from that text. Moreover, the user can specify the number of words of the summarized text and the number of keywords to be extracted. Some screen-shots of the proposed application are presented in the Appendix of this report. The website was created using Bootstrap [7] as front-end library for designing websites and web applications. We also used jQuery, a cross-platform JavaScript library designed to simplify the client-side scripting of HTML. The web-application is basic and simple but we think that in this way the user can understand better how TextRank works and have a qualitative impression about the quality of this system.
+
+\section{Conclusions and future works} 
+In this project, we tested and evaluated TextRank and showed how it can be successfully used for different natural language applications. In particular, we evaluated two innovative unsupervised approaches for keyword and sentence extraction, and showed that the accuracy achieved by TextRank in these applications is competitive with the state-of-the-art algorithms. An important aspect of TextRank is that it does not require deep linguistic knowledge, nor domain or language specific annotated corpora, which makes it highly portable to other domains, genres, or languages. First of all, we evaluated the system proposed in [2] for the task of keywords extraction; we obtained bad results, probably due to a problem with the code. We are working to solve this problem and to improve this system in the future. Secondly, we studied the different variations of the similarity function of the original TextRank proposed in [2]; this approach is able to achieve, through the best configuration, an improvement in performance of almost 2\% over the original TextRank setup. Finally, we presented a simple but effective web-application where the user can "play" with TextRank with any text.\\
+Considering possible extensions and future works, we think that an innovative and challenging application in this research field is the so-called \textit{Abstractive Text Summarization}. As summarized in [8], Abstractive text summarization is the task of generating a headline or a short summary consisting of a few sentences that captures the salient ideas of an article or a passage. The adjective "abstractive" denotes a summary that is not a mere selection of a few existing passages or sentences extracted from the source, but a compressed paraphrasing of the main contents of the document, potentially using vocabulary unseen in the source document. This task can also be naturally cast as mapping an input sequence of words in a source document to a target sequence of words called summary. In the recent past, deep-learning based models that map an input sequence into another output sequence, called sequence-to-sequence models, have been successful in many problems such as machine translation, speech recognition and video captioning.  A key challenge in summarization is to optimally compress the original document in a lossy manner such that the key concepts in the original document are preserved, whereas in MT, the translation is expected to be loss-less. We think that this line of research will lead to great results in the future and we would like to examine in depth these deep-learning techniques. 
+
+
+%----------------------------------------------------------------------------------------
+%	REFERENCE LIST
+%----------------------------------------------------------------------------------------
+
+
+\bibliographystyle{unsrt}
+\begin{thebibliography}{99}
+
+\bibitem{c1} Mihalcea, Rada  and  Tarau, Paul, TextRank: Bringing Order into Texts, Proceedings of EMNLP 2004.
+\bibitem{c2} Federico Barrios, Federico L{\'{o}}pez, Luis Argerich, Rosa Wachenchauzer, Variations of the Similarity Function of TextRank for Automated Summarization, CoRR 2016
+\bibitem{c3} S. Brin and L. Page. 1998. The anatomy of a large-scale hyper- textual Web search engine. Computer Networks and ISDN Systems, 30(1-7).
+\bibitem{c4} R. Mihalcea, P. Tarau, and E. Figa. 2004. PageRank on semantic networks, with application to word sense disambiguation. In Proceedings of the 20st International Conference on Computational Linguistics (COLING 2004), Geneva, Switzerland.
+\bibitem{c5} Luhn, H.P.: The automatic creation of literature abstracts. IBM J. Res. Dev. 2(2), 159-165 (Apr 1958)
+\bibitem{c6} Das, D., Martins, A.F.T.: A survey on automatic text summarization. Tech. rep., Carnegie Mellon University, Language Technologies Institute (2007)
+\bibitem{c7} Bootstrap - The most popular HTML, CSS, and JS library in the world. (https://getbootstrap.com/)
+\bibitem{c8} Ramesh Nallapati, Bowen Zhou, Cicero Nogueira dos santos, Caglar Gulcehre, Bing Xiang, Abstractive Text Summarization Using Sequence-to-Sequence RNNs and Beyond, (CoNLL), 2016.
+
+\end{thebibliography}
+
+
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
